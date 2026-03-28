@@ -1,0 +1,23 @@
+# Data & Models
+dataset/
+chroma_db/
+raw_chunks.json
+answers_raw.json
+validation_report.json
+
+# Environment
+.env
+venv/
+
+# Node
+node_modules/
+dist/
+
+# Temp
+deploy/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Build artifacts
+/tmp/

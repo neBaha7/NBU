@@ -1,0 +1,156 @@
+[
+    {
+        "question_id": 1,
+        "relevant_chunks": [
+            {
+                "document_name": "NSBU_annual_2134.xlsx",
+                "page_number": 1
+            }
+        ],
+        "answer": "Ташкентская область, г. Ангрен, ул.Ташкентская, 4"
+    },
+    {
+        "question_id": 2,
+        "relevant_chunks": [
+            {
+                "document_name": "NSBU_annual_2134.xlsx",
+                "page_number": 1
+            }
+        ],
+        "answer": 11393450
+    },
+    {
+        "question_id": 3,
+        "relevant_chunks": [
+            {
+                "document_name": "NSBU_annual_2134.xlsx",
+                "page_number": 1
+            }
+        ],
+        "answer": 149961240
+    },
+    {
+        "question_id": 4,
+        "relevant_chunks": [
+            {
+                "document_name": "NSBU_annual_2134.xlsx",
+                "page_number": 1
+            }
+        ],
+        "answer": 1454921
+    },
+    {
+        "question_id": 5,
+        "relevant_chunks": [
+            {
+                "document_name": "profile.json",
+                "page_number": 1
+            }
+        ],
+        "answer": 207243390
+    },
+    {
+        "question_id": 6,
+        "relevant_chunks": [
+            {
+                "document_name": "profile.json",
+                "page_number": 1
+            }
+        ],
+        "answer": "Toshkent shahar, Shayxontohur tumani, Botir Zokirov ko'chasi 2a-uy."
+    },
+    {
+        "question_id": 7,
+        "relevant_chunks": [
+            {
+                "document_name": "NSBU_quarter_25834.xlsx",
+                "page_number": 1
+            }
+        ],
+        "answer": "info@anorbank.uz"
+    },
+    {
+        "question_id": 8,
+        "relevant_chunks": [
+            {
+                "document_name": "NSBU_quarter_25834.xlsx",
+                "page_number": 1
+            }
+        ],
+        "answer": 12568516304
+    },
+    {
+        "question_id": 9,
+        "relevant_chunks": [
+            {
+                "document_name": "NSBU_quarter_25834.xlsx",
+                "page_number": 1
+            }
+        ],
+        "answer": 235917922
+    },
+    {
+        "question_id": 10,
+        "relevant_chunks": [
+            {
+                "document_name": "NSBU_quarter_25834.xlsx",
+                "page_number": 1
+            }
+        ],
+        "answer": "01183"
+    },
+    {
+        "question_id": 11,
+        "relevant_chunks": [
+            {
+                "document_name": "NSBU_annual_2134.xlsx",
+                "page_number": 1
+            }
+        ],
+        "answer": "Uzsanoatqurilishbank Angren filliali"
+    },
+    {
+        "question_id": 12,
+        "relevant_chunks": [
+            {
+                "document_name": "NSBU_quarter_25834.xlsx",
+                "page_number": 1
+            },
+            {
+                "document_name": "NSBU_annual_2134.xlsx",
+                "page_number": 1
+            }
+        ],
+        "answer": "Anor Bank"
+    },
+    {
+        "question_id": 13,
+        "relevant_chunks": [
+            {
+                "document_name": "NSBU_annual_2134.xlsx",
+                "page_number": 1
+            }
+        ],
+        "answer": 53240957
+    },
+    {
+        "question_id": 14,
+        "relevant_chunks": [
+            {
+                "document_name": "NSBU_annual_2134.pdf",
+                "page_number": 1
+            }
+        ],
+        "answer": "https://angrentes.uz/"
+    },
+    {
+        "question_id": 15,
+        "relevant_chunks": [
+            {
+                "document_name": "NSBU_quarter_25834.xlsx",
+                "page_number": 1
+            }
+        ],
+        "answer": 2257849702
+    }
+]

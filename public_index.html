@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBU Document Intelligence | The Financial Standard</title>
+  
+  <!-- Newsprint Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { 
+            sans: ['Inter', 'Helvetica Neue', 'sans-serif'],
+            serif: ['"Playfair Display"', '"Times New Roman"', 'serif'],
+            body: ['Lora', 'Georgia', 'serif'],
+            mono: ['"JetBrains Mono"', '"Courier New"', 'monospace']
+          },
+          colors: { 
+            news: {
+              paper: '#F9F9F7',
+              ink: '#111111',
+              muted: '#E5E5E0',
+              red: '#CC0000',
+              divider: '#A3A3A3'
+            }
+          },
+          boxShadow: { 
+            'hard': '4px 4px 0px 0px #111111',
+            'hard-sm': '2px 2px 0px 0px #111111'
+          },
+          animation: { 
+            'ticker': 'ticker 20s linear infinite',
+          },
+          keyframes: { 
+            ticker: {
+              '0%': { transform: 'translateX(100%)' },
+              '100%': { transform: 'translateX(-100%)' }
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * { border-radius: 0px !important; }
+    
+    body { 
+      background-color: #F9F9F7; 
+      color: #111111; 
+      min-height: 100vh; 
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23111111' fill-opacity='0.04' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+    }
+
+    .newsprint-texture { position: relative; }
+    .newsprint-texture::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(0deg, transparent 98%, rgba(0,0,0,0.03) 100%),
+        linear-gradient(90deg, transparent 98%, rgba(0,0,0,0.03) 100%);
+      background-size: 4px 4px;
+      pointer-events: none;
+      opacity: 0.6;
+      z-index: 0;
+    }
+
+    .hard-shadow-hover { transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+    .hard-shadow-hover:hover, .hard-shadow-hover:focus-within {
+      box-shadow: 4px 4px 0px 0px #111111;
+      transform: translate(-2px, -2px);
+    }
+
+    .drop-cap::first-letter {
+      float: left;
+      font-size: 5.5rem;
+      line-height: 0.8;
+      padding-top: 0.25rem;
+      padding-right: 0.5rem;
+      padding-bottom: 0.1rem;
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      color: #111111;
+    }
+
+    .border-ink { border-color: #111111; }
+    
+    @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+    .typing-cursor::after { content: '█'; color: #CC0000; animation: blink 0.8s step-end infinite; margin-left: 2px; }
+  </style>
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="font-sans antialiased selection:bg-news-red selection:text-white pb-32">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback, createContext, useContext } = React;
+
+    // ═══════════════════════════════════════════════
+    //  i18n — Translations (UZ default, RU, EN)
+    // ═══════════════════════════════════════════════
+    const translations = {
+      uz: {
+        // Header
+        edition: "Toshkent nashr",
+        pipelineOnline: "RAG TIZIMI FAOL",
+        masthead: "NBU Intellekt",
+        tagline: "\"Korporativ moliyaviy ma'lumotlarni tahlil qilish tizimi.\"",
+        navDashboard: "Bosh sahifa",
+        navQuery: "Moliyaviy so'rov",
+        navReports: "Yillik hisobotlar",
+        navIFRS: "MHXS oshkoralari",
+        // Query
+        queryLabel: "AI tizimiga to'g'ridan-to'g'ri so'rov yuborish",
+        queryPlaceholder: "Masalan: 2134 moliyaviy yil uchun umumiy daromad qancha?",
+        queryHint: "Tizim aniq so'rov iboralarini talab qiladi",
+        secureConn: "• Xavfsiz ulanish",
+        btnExecute: "Bajarish",
+        btnProcessing: "Jarayonda...",
+        // Article
+        badgeExclusive: "Eksklyuziv hisobot",
+        badgeAutoGen: "Avtomatik yaratilgan",
+        articleTitle: "AI tahlili korporativ moliyaviy ko'rsatkichlarni aniqladi",
+        byline: "Tizim RAG-dvigateli",
+        processingTime: "Qayta ishlash vaqti",
+        skipInit: "[ O'tkazib yuborish ]",
+        // Sources
+        verifiedSources: "Tasdiqlangan manbalar",
+        docRef: "Hujjat yo'llanmasi",
+        match: "Moslik",
+        loc: "Joylashuv",
+        awaitingCitations: "Manbalar kutilmoqda...",
+        noSources: "Manbalar ko'rsatilmagan.",
+        // Loading
+        loadingText: "Neyron ma'lumotlar bazasiga so'rov yuborilmoqda...",
+        // Empty state
+        blankPage: "Sahifa bo'sh.",
+        awaitingOp: "Operator ko'rsatmasini kutmoqda.",
+        // Sidebar
+        statusTicker: "Holat paneli",
+        nodesOnline: "Tugunlar onlayn",
+        avgLatency: "O'rtacha kechikish",
+        indexSync: "Indeks sinxronlash",
+        wantedTitle: "Kerak:",
+        wantedSub: "Ko'proq ma'lumot",
+        wantedBody: "Mashinaga chorak hisobotlaringizni yuboring. U ochdir.",
+        // Footer
+        footerCopy: "© 2134 NBU Intelligence Corp.",
+        footerTerms: "Shartlar",
+        footerPrivacy: "Maxfiylik",
+        footerGuidelines: "Tahrir qoidalari",
+        // Mock answer
+        mockAnswer: "NBU ning 2134 moliyaviy yil uchun yillik moliyaviy hisobotlari tahliliga ko'ra, kompaniya yillik daromadning 18,3% o'sishini ko'rsatdi va umumiy konsolidatsiyalangan daromad ₦4,2 trillionga yetdi.\n\nO'z kapitaliga daromadlilik avvalgi yilning 21,1% dan 24,3% ga ko'tarildi, bu boshqaruv kengashining 22% strategik maqsadidan oshdi va NBU ni mintaqadagi eng samarali moliyaviy muassasalar qatoriga qo'ydi."
+      },
+      ru: {
+        edition: "Ташкентское издание",
+        pipelineOnline: "RAG СИСТЕМА ОНЛАЙН",
+        masthead: "NBU Интеллект",
+        tagline: "\"Вся корпоративная финансовая аналитика, достойная анализа.\"",
+        navDashboard: "Главная",
+        navQuery: "Финансовый запрос",
+        navReports: "Годовые отчёты",
+        navIFRS: "Раскрытия МСФО",
+        queryLabel: "Прямой запрос к AI-конвейеру",
+        queryPlaceholder: "Напр.: Какова общая выручка за 2134 финансовый год?",
+        queryHint: "Система требует точных формулировок для оптимального поиска",
+        secureConn: "• Защищённое подключение",
+        btnExecute: "Выполнить",
+        btnProcessing: "Обработка...",
+        badgeExclusive: "Эксклюзивный отчёт",
+        badgeAutoGen: "Авто-генерация",
+        articleTitle: "ИИ-анализ раскрыл корпоративные финансовые показатели",
+        byline: "Система RAG-движок",
+        processingTime: "Время обработки",
+        skipInit: "[ Пропустить ]",
+        verifiedSources: "Проверенные источники",
+        docRef: "Ссылка на документ",
+        match: "Совпадение",
+        loc: "Расположение",
+        awaitingCitations: "Ожидание источников...",
+        noSources: "Источники не указаны.",
+        loadingText: "Запрос к нейронной базе данных...",
+        blankPage: "Страница пуста.",
+        awaitingOp: "Ожидание инструкции оператора.",
+        statusTicker: "Статус-панель",
+        nodesOnline: "Узлы онлайн",
+        avgLatency: "Ср. задержка",
+        indexSync: "Синхр. индекса",
+        wantedTitle: "Требуется:",
+        wantedSub: "Больше данных",
+        wantedBody: "Загрузите квартальные отчёты. Машина голодна.",
+        footerCopy: "© 2134 NBU Intelligence Corp.",
+        footerTerms: "Условия",
+        footerPrivacy: "Конфиденциальность",
+        footerGuidelines: "Редакционная политика",
+        mockAnswer: "По результатам анализа годовой финансовой отчётности NBU за 2134 финансовый год, компания продемонстрировала устойчивый рост выручки на 18,3% в годовом выражении, достигнув общей консолидированной выручки в размере ₦4,2 трлн.\n\nРентабельность собственного капитала выросла до 24,3% с 21,1% за предыдущий год, превысив стратегический ориентир совета директоров в 22% и позволив NBU войти в число наиболее эффективных финансовых институтов региона."
+      },
+      en: {
+        edition: "Tashkent Edition",
+        pipelineOnline: "RAG PIPELINE ONLINE",
+        masthead: "NBU Intelligence",
+        tagline: "\"All the corporate financial data that's fit to parse.\"",
+        navDashboard: "Dashboard",
+        navQuery: "Financial Query",
+        navReports: "Annual Reports",
+        navIFRS: "IFRS Disclosures",
+        queryLabel: "Submit Direct Query to AI Pipeline",
+        queryPlaceholder: "E.g., What was the total revenue for fiscal year 2134?",
+        queryHint: "System requires precise phrasing for optimal retrieval",
+        secureConn: "• Secure Connection",
+        btnExecute: "Execute",
+        btnProcessing: "Processing",
+        badgeExclusive: "Exclusive Report",
+        badgeAutoGen: "Auto-Generated",
+        articleTitle: "AI Analysis Discloses Corporate Financial Figures",
+        byline: "System RAG-Engine",
+        processingTime: "Processing T",
+        skipInit: "[ Skip Initialization ]",
+        verifiedSources: "Verified Sources",
+        docRef: "Document Ref.",
+        match: "Match",
+        loc: "Loc",
+        awaitingCitations: "Awaiting citations...",
+        noSources: "No sources cited.",
+        loadingText: "Querying Neural Database...",
+        blankPage: "The Page is Blank.",
+        awaitingOp: "Awaiting operator instruction.",
+        statusTicker: "Status Ticker",
+        nodesOnline: "Nodes Online",
+        avgLatency: "Avg Latency",
+        indexSync: "Index Sync",
+        wantedTitle: "Wanted:",
+        wantedSub: "More Data",
+        wantedBody: "Feed the machine your quarterly reports. It hungers.",
+        footerCopy: "© 2134 NBU Intelligence Corp.",
+        footerTerms: "Terms",
+        footerPrivacy: "Privacy",
+        footerGuidelines: "Editorial Guidelines",
+        mockAnswer: "Based on the analysis of NBU's annual financial statements for fiscal year 2134, the company demonstrated strong revenue growth of 18.3% year-over-year, reaching a total consolidated revenue of ₦4.2 trillion.\n\nReturn on equity improved to 24.3% from 21.1% in the prior year, exceeding the board's strategic target of 22% and placing NBU among the top-performing financial institutions in the region."
+      }
+    };
+
+    // Language Context
+    const LangContext = createContext();
+
+    function useLang() {
+      return useContext(LangContext);
+    }
+
+    function t(lang, key) {
+      return (translations[lang] && translations[lang][key]) || translations.en[key] || key;
+    }
+
+    // ═══════════════════════════════════════════════
+    //  Language Switcher Component
+    // ═══════════════════════════════════════════════
+    function LangSwitcher({ lang, setLang }) {
+      const langs = [
+        { code: 'uz', label: "O'Z" },
+        { code: 'ru', label: 'РУ' },
+        { code: 'en', label: 'EN' },
+      ];
+
+      return (
+        <div className="flex border border-ink divide-x divide-ink">
+          {langs.map(l => (
+            <button
+              key={l.code}
+              onClick={() => setLang(l.code)}
+              className={`px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-wider transition-colors min-w-[40px] ${
+                lang === l.code
+                  ? 'bg-news-ink text-white'
+                  : 'bg-white text-news-ink hover:bg-news-muted'
+              }`}
+            >
+              {l.label}
+            </button>
+          ))}
+        </div>
+      );
+    }
+
+    // ═══════════════════════════════════════════════
+    //  Mock API
+    // ═══════════════════════════════════════════════
+    async function searchDocuments(query, lang) {
+      await new Promise(r => setTimeout(r, 600));
+      return { 
+        query, 
+        answer: t(lang, 'mockAnswer'), 
+        sources: [
+          { id: 1, filename: 'NSBU_annual_2134.xlsx', sheet: 'Income Statement', relevance: 0.98 },
+          { id: 2, filename: 'Q4_earnings_report_2134.pdf', sheet: 'Pg. 12', relevance: 0.94 }
+        ], 
+        timestamp: new Date().toISOString(), 
+        processingTimeMs: 240 
+      };
+    }
+
+    // ═══════════════════════════════════════════════
+    //  Components
+    // ═══════════════════════════════════════════════
+
+    function NewsHeader() {
+      const { lang, setLang } = useLang();
+      const dateLocales = { uz: 'uz-UZ', ru: 'ru-RU', en: 'en-US' };
+      const today = new Date().toLocaleDateString(dateLocales[lang] || 'en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      
+      return (
+        <header className="w-full border-b-4 border-ink bg-news-paper z-40 relative">
+          {/* Top Ticker / Metadata Bar */}
+          <div className="border-b border-ink flex items-center justify-between px-4 py-1.5 text-xs font-mono uppercase tracking-widest text-news-ink bg-white">
+            <div className="flex gap-6">
+              <span>Vol. CXCIV — No. 64</span>
+              <span className="hidden sm:inline">{t(lang, 'edition')}</span>
+            </div>
+            <span className="hidden md:inline">{today}</span>
+            <div className="flex items-center gap-4">
+              <div className="hidden sm:flex items-center gap-2 text-news-red font-bold">
+                <span className="w-2 h-2 bg-news-red inline-block animate-pulse"></span>
+                {t(lang, 'pipelineOnline')}
+              </div>
+              <LangSwitcher lang={lang} setLang={setLang} />
+            </div>
+          </div>
+          
+          {/* Main Masthead */}
+          <div className="py-8 px-4 text-center border-b border-ink newsprint-texture">
+            <h1 className="font-serif font-black text-6xl sm:text-7xl lg:text-9xl tracking-tighter leading-[0.85] text-news-ink mx-auto py-2">
+              {t(lang, 'masthead')}
+            </h1>
+            <p className="font-serif italic text-lg sm:text-2xl text-news-ink mt-4 max-w-2xl mx-auto">
+              {t(lang, 'tagline')}
+            </p>
+          </div>
+          
+          {/* Main Navigation Row */}
+          <nav className="flex divide-x divide-ink border-b-2 border-ink text-sm font-sans uppercase tracking-widest font-semibold bg-white overflow-x-auto">
+            <a href="#" className="py-3 px-6 hover:bg-news-ink hover:text-news-paper transition-colors whitespace-nowrap">{t(lang, 'navDashboard')}</a>
+            <a href="#" className="py-3 px-6 hover:bg-news-ink hover:text-news-paper transition-colors whitespace-nowrap text-news-red">{t(lang, 'navQuery')}</a>
+            <a href="#" className="py-3 px-6 hover:bg-news-ink hover:text-news-paper transition-colors whitespace-nowrap">{t(lang, 'navReports')}</a>
+            <a href="#" className="py-3 px-6 hover:bg-news-ink hover:text-news-paper transition-colors whitespace-nowrap">{t(lang, 'navIFRS')}</a>
+            <div className="flex-grow"></div>
+          </nav>
+        </header>
+      );
+    }
+
+    function QueryInput({ onSearch, isLoading }) {
+      const { lang } = useLang();
+      const [query, setQuery] = useState('');
+      
+      const handleSubmit = (e) => { 
+        e.preventDefault(); 
+        if (query.trim() && !isLoading) onSearch(query.trim()); 
+      };
+
+      return (
+        <div className="border border-ink bg-white p-6 sm:p-10 relative">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-10 h-10 bg-news-ink text-white flex items-center justify-center font-serif font-bold text-xl flex-shrink-0">
+              Q
+            </div>
+            <h2 className="font-sans font-bold uppercase tracking-widest text-sm text-news-ink">
+              {t(lang, 'queryLabel')}
+            </h2>
+          </div>
+
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-0 group">
+            <div className="flex-grow border-2 border-ink bg-news-paper relative hard-shadow-hover">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-news-ink pointer-events-none">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
+                  <path d="M4 9h16 M4 15h16 M10 3L8 21 M16 3l-2 18" />
+                </svg>
+              </div>
+              <input 
+                type="text" 
+                value={query} 
+                onChange={(e) => setQuery(e.target.value)} 
+                placeholder={t(lang, 'queryPlaceholder')} 
+                disabled={isLoading} 
+                className="w-full pl-12 pr-4 py-4 bg-transparent font-mono text-base text-news-ink placeholder:text-news-divider focus-visible:outline-none focus-visible:bg-white transition-colors"
+                autoComplete="off" 
+              />
+            </div>
+            
+            <button 
+              type="submit" 
+              disabled={!query.trim() || isLoading} 
+              className="mt-4 sm:mt-0 sm:-ml-[2px] border-2 border-ink bg-news-ink text-news-paper px-8 py-4 font-sans font-bold uppercase tracking-widest text-sm hover:bg-news-red hover:border-news-red transition-colors disabled:opacity-50 disabled:bg-news-ink disabled:border-ink z-10"
+            >
+              {isLoading ? t(lang, 'btnProcessing') : t(lang, 'btnExecute')}
+            </button>
+          </form>
+          
+          <div className="mt-4 flex items-center justify-between border-t border-ink/20 pt-3">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-news-ink/60">
+              {t(lang, 'queryHint')}
+            </span>
+            <span className="font-mono text-[10px] uppercase tracking-wider text-news-red font-bold">
+              {t(lang, 'secureConn')}
+            </span>
+          </div>
+        </div>
+      );
+    }
+
+    function CitationBadge({ filename, sheet, relevance }) {
+      const { lang } = useLang();
+      const relevancePercent = Math.round(relevance * 100);
+      
+      return (
+        <div className="border border-ink bg-white flex flex-col hover:bg-news-paper transition-colors group cursor-crosshair h-full">
+          <div className="border-b border-ink flex justify-between items-center px-3 py-1.5 bg-news-ink text-white">
+            <span className="font-mono text-[10px] uppercase tracking-widest">{t(lang, 'docRef')}</span>
+            <span className="font-mono text-[10px] font-bold">
+              {t(lang, 'match')}: {relevancePercent}%
+            </span>
+          </div>
+          <div className="p-4 flex gap-3 flex-grow items-start">
+            <div className="w-8 h-8 border border-ink flex items-center justify-center flex-shrink-0 bg-white group-hover:bg-news-red group-hover:text-white transition-colors">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
+                <path d="M14 2H6v20h12V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+            </div>
+            <div className="flex flex-col flex-grow min-w-0">
+              <span className="font-sans font-bold text-sm text-news-ink truncate group-hover:underline decoration-2 underline-offset-2">{filename}</span>
+              <span className="font-mono text-xs text-news-ink mt-1 block truncate">{t(lang, 'loc')}: {sheet}</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function ArticleCard({ answer, processingTimeMs, sources }) {
+      const { lang } = useLang();
+      const [displayedText, setDisplayedText] = useState('');
+      const [isTyping, setIsTyping] = useState(true);
+      const intervalRef = useRef(null);
+      
+      useEffect(() => {
+        setDisplayedText(''); 
+        setIsTyping(true);
+        let i = 0;
+        intervalRef.current = setInterval(() => {
+          if (i < answer.length) { 
+            setDisplayedText(answer.slice(0, i + 1)); 
+            i++; 
+          } else { 
+            clearInterval(intervalRef.current); 
+            setIsTyping(false); 
+          }
+        }, 5);
+        return () => clearInterval(intervalRef.current);
+      }, [answer]);
+
+      return (
+        <article className="border-2 border-ink bg-white">
+          <header className="border-b-2 border-ink p-6 sm:px-10 sm:py-8 bg-news-paper flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <div className="flex gap-2 mb-3">
+                <span className="bg-news-ink text-white font-mono text-[10px] uppercase tracking-widest px-2 py-0.5">
+                  {t(lang, 'badgeExclusive')}
+                </span>
+                <span className="border border-ink bg-white text-news-red font-mono font-bold text-[10px] uppercase tracking-widest px-2 py-0.5">
+                  {t(lang, 'badgeAutoGen')}
+                </span>
+              </div>
+              <h2 className="font-serif font-black text-3xl sm:text-4xl text-news-ink leading-tight">
+                {t(lang, 'articleTitle')}
+              </h2>
+            </div>
+            
+            <div className="flex-shrink-0 flex flex-col items-start md:items-end border-t md:border-t-0 border-ink md:border-l pl-0 md:pl-6 pt-4 md:pt-0">
+              <span className="font-sans font-bold uppercase tracking-widest text-xs text-news-ink mb-1">
+                {t(lang, 'byline')}
+              </span>
+              <span className="font-mono text-[10px] uppercase text-news-ink">
+                {t(lang, 'processingTime')}: {processingTimeMs}ms
+              </span>
+              {isTyping && (
+                <button onClick={() => { clearInterval(intervalRef.current); setDisplayedText(answer); setIsTyping(false); }} className="mt-3 text-[10px] font-bold uppercase tracking-widest text-news-red border-b border-news-red hover:text-news-ink hover:border-news-ink">
+                  {t(lang, 'skipInit')}
+                </button>
+              )}
+            </div>
+          </header>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12">
+            <div className="lg:col-span-8 border-b lg:border-b-0 lg:border-r border-ink p-6 sm:p-10">
+              <div className="font-body text-lg text-news-ink leading-[1.7] text-justify columns-1 sm:columns-2 gap-8 relative">
+                <div className={`relative ${!isTyping ? 'drop-cap' : ''}`}>
+                  <span>{displayedText}</span>
+                  {isTyping && <span className="typing-cursor" />}
+                </div>
+              </div>
+              
+              {!isTyping && (
+                <div className="mt-8 text-center font-serif text-2xl text-news-ink tracking-[1em]">
+                  &#x2727; &#x2727; &#x2727;
+                </div>
+              )}
+            </div>
+            
+            <aside className="lg:col-span-4 bg-news-paper p-6 sm:p-8 flex flex-col">
+              <div className="flex items-center gap-3 border-b border-ink pb-4 mb-6">
+                <span className="w-6 h-6 bg-news-ink text-white flex items-center justify-center font-serif text-sm font-bold">
+                  §
+                </span>
+                <h3 className="font-sans font-black uppercase tracking-widest text-sm text-news-ink">
+                  {t(lang, 'verifiedSources')}
+                </h3>
+              </div>
+              
+              {(!isTyping && sources && sources.length > 0) ? (
+                <div className="flex flex-col gap-4">
+                  {sources.map((source) => (
+                    <CitationBadge key={source.id} filename={source.filename} sheet={source.sheet} relevance={source.relevance} />
+                  ))}
+                </div>
+              ) : (
+                <div className="flex-grow flex items-center justify-center border border-dashed border-ink/40 p-6 bg-white">
+                  <span className="font-mono text-xs uppercase tracking-widest text-news-ink/40 text-center">
+                    {isTyping ? t(lang, 'awaitingCitations') : t(lang, 'noSources')}
+                  </span>
+                </div>
+              )}
+            </aside>
+          </div>
+        </article>
+      );
+    }
+
+    // ═══════════════════════════════════════════════
+    //  Layout Shell
+    // ═══════════════════════════════════════════════
+    
+    function SearchPage() {
+      const { lang } = useLang();
+      const [result, setResult] = useState(null);
+      const [isLoading, setIsLoading] = useState(false);
+
+      const handleSearch = useCallback(async (query) => {
+        setIsLoading(true); 
+        setResult(null);
+        try { 
+          const data = await searchDocuments(query, lang); 
+          setResult(data); 
+        } 
+        catch (e) { console.error(e); } 
+        finally { setIsLoading(false); }
+      }, [lang]);
+
+      return (
+        <main className="max-w-[1400px] mx-auto min-h-screen border-l border-r border-ink bg-news-paper relative shadow-2xl shadow-black/5">
+          <NewsHeader />
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 border-b-2 border-ink">
+            <div className="lg:col-span-9 border-b lg:border-b-0 lg:border-r border-ink p-6 sm:p-12">
+              <QueryInput onSearch={handleSearch} isLoading={isLoading} />
+              
+              <div className="mt-12">
+                {isLoading ? (
+                  <div className="border border-ink p-10 bg-white flex flex-col items-center justify-center min-h-[400px]">
+                    <div className="w-12 h-12 border-4 border-news-ink border-t-news-red animate-spin mb-6" style={{borderRadius:'50%'}}></div>
+                    <div className="font-mono text-sm uppercase tracking-widest text-news-ink/70">
+                      {t(lang, 'loadingText')}
+                    </div>
+                  </div>
+                ) : result ? (
+                  <ArticleCard answer={result.answer} processingTimeMs={result.processingTimeMs} sources={result.sources} />
+                ) : (
+                  <div className="border border-ink p-12 bg-white text-center newsprint-texture">
+                    <span className="font-serif text-5xl text-news-ink/10 select-none">
+                      {t(lang, 'blankPage')}
+                    </span>
+                    <p className="font-sans font-bold uppercase tracking-widest text-sm text-news-ink/40 mt-6">
+                      {t(lang, 'awaitingOp')}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <aside className="lg:col-span-3 bg-white hidden lg:flex flex-col">
+              <div className="border-b border-ink p-6 bg-news-ink text-white">
+                <h4 className="font-sans font-black uppercase tracking-widest text-xs mb-4 text-news-red">{t(lang, 'statusTicker')}</h4>
+                <div className="space-y-4 font-mono text-xs">
+                  <div className="flex justify-between border-b border-white/20 pb-2"><span>{t(lang, 'nodesOnline')}:</span> <span className="font-bold">1,402</span></div>
+                  <div className="flex justify-between border-b border-white/20 pb-2"><span>{t(lang, 'avgLatency')}:</span> <span className="font-bold text-green-400">12ms</span></div>
+                  <div className="flex justify-between pb-2"><span>{t(lang, 'indexSync')}:</span> <span className="font-bold">100%</span></div>
+                </div>
+              </div>
+              
+              <div className="p-8 flex-grow flex items-center justify-center newsprint-texture">
+                <div className="border-4 double border-ink p-6 text-center transform -rotate-2 bg-news-paper hard-shadow-hover transition-transform duration-300">
+                  <div className="font-serif font-black text-2xl uppercase leading-tight">{t(lang, 'wantedTitle')}</div>
+                  <div className="font-sans font-bold text-sm tracking-tighter uppercase mt-2">{t(lang, 'wantedSub')}</div>
+                  <div className="w-full h-px bg-ink my-4"></div>
+                  <div className="font-body text-sm italic">{t(lang, 'wantedBody')}</div>
+                </div>
+              </div>
+            </aside>
+          </div>
+          
+          <footer className="border-t border-ink bg-white p-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-news-ink font-mono text-[10px] uppercase tracking-widest">
+            <div>{t(lang, 'footerCopy')}</div>
+            <div className="flex gap-4">
+              <a href="#" className="hover:text-news-red hover:underline decoration-2 underline-offset-4">{t(lang, 'footerTerms')}</a>
+              <a href="#" className="hover:text-news-red hover:underline decoration-2 underline-offset-4">{t(lang, 'footerPrivacy')}</a>
+              <a href="#" className="hover:text-news-red hover:underline decoration-2 underline-offset-4">{t(lang, 'footerGuidelines')}</a>
+            </div>
+          </footer>
+        </main>
+      );
+    }
+
+    function App() {
+      const [lang, setLang] = useState('uz');
+
+      return (
+        <LangContext.Provider value={{ lang, setLang }}>
+          <SearchPage />
+        </LangContext.Provider>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
