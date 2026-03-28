@@ -293,41 +293,51 @@
     //  Knowledge Base & Search Engine
     // ═══════════════════════════════════════════════
     const KNOWLEDGE_BASE = [
-      { id:1, q:"Какой полный адрес местонахождения компании Angren Issiqlik Elektr Stansiyasi AJ", keywords:["адрес","местонахождение","angren","ангрен","issiqlik","stansiyasi","manzili","address"], source:"NSBU_annual_10773.xlsx", 
+      { id:1, q_ru:"Какой полный адрес местонахождения компании Angren Issiqlik Elektr Stansiyasi AJ", q_uz:"Angren Issiqlik Elektr Stansiyasi AJ kompaniyasining to'liq manzili qayerda", q_en:"What is the full registered address of Angren Issiqlik Elektr Stansiyasi AJ", keywords:["адрес","местонахождение","angren","ангрен","issiqlik","stansiyasi","manzili","address"], source:"NSBU_annual_10773.xlsx", 
         orig: "Ташкентская область, г. Ангрен, ул.Ташкентская, 4", uz: "Toshkent viloyati, Angren shahri, Toshkent ko'chasi, 4", en: "Tashkent region, Angren city, Tashkent st., 4", ru: "Ташкентская область, г. Ангрен, ул.Ташкентская, 4" },
-      { id:2, q:"Каков размер уставного капитала Angren Issiqlik Elektr Stansiyasi AJ по данным NSBU_annual_2134", keywords:["уставн","капитал","angren","ангрен","2134","xarajat","ustav"], source:"NSBU_annual_2134.xlsx",
+      { id:2, q_ru:"Каков размер уставного капитала Angren Issiqlik Elektr Stansiyasi AJ по данным NSBU_annual_2134", q_uz:"NSBU_annual_2134 ma'lumotlariga ko'ra Angren Issiqlik Elektr Stansiyasi AJ ustav kapitali hajmi qancha", q_en:"What is the authorized capital size of Angren Issiqlik Elektr Stansiyasi AJ according to NSBU_annual_2134", keywords:["уставн","капитал","angren","ангрен","2134","xarajat","ustav","capital"], source:"NSBU_annual_2134.xlsx",
         orig: "11 393 450 тыс. сум", uz: "11 393 450 ming so'm", en: "11,393,450 thousand UZS", ru: "11 393 450 тыс. сум" },
-      { id:3, q:"Какова чистая выручка от реализации продукции Angren Issiqlik Elektr Stansiyasi AJ за отчетный период NSBU_annual_2134", keywords:["чист","выручк","реализаци","angren","ангрен","2134","daromad","revenue","tushum"], source:"NSBU_annual_2134.xlsx",
+      { id:3, q_ru:"Какова чистая выручка от реализации продукции Angren Issiqlik Elektr Stansiyasi AJ за отчетный период NSBU_annual_2134", q_uz:"NSBU_annual_2134 hisobot davrida Angren Issiqlik Elektr Stansiyasi AJ mahsulot sotishdan olgan sof tushumi qancha", q_en:"What is the net revenue from product sales of Angren Issiqlik Elektr Stansiyasi AJ for the reporting period NSBU_annual_2134", keywords:["чист","выручк","реализаци","angren","ангрен","2134","daromad","revenue","tushum"], source:"NSBU_annual_2134.xlsx",
         orig: "149 961 240 тыс. сум", uz: "149 961 240 ming so'm", en: "149,961,240 thousand UZS", ru: "149 961 240 тыс. сум" },
-      { id:4, q:"Какова чистая прибыль Angren Issiqlik Elektr Stansiyasi AJ за отчетный период NSBU_annual_2134", keywords:["чист","прибыль","angren","ангрен","2134","foyda","profit"], source:"NSBU_annual_2134.xlsx",
+      { id:4, q_ru:"Какова чистая прибыль Angren Issiqlik Elektr Stansiyasi AJ за отчетный период NSBU_annual_2134", q_uz:"NSBU_annual_2134 hisobot davrida Angren Issiqlik Elektr Stansiyasi AJ sof foydasi qancha", q_en:"What is the net profit of Angren Issiqlik Elektr Stansiyasi AJ for the reporting period NSBU_annual_2134", keywords:["чист","прибыль","angren","ангрен","2134","foyda","profit"], source:"NSBU_annual_2134.xlsx",
         orig: "1 454 921 тыс. сум", uz: "1 454 921 ming so'm", en: "1,454,921 thousand UZS", ru: "1 454 921 тыс. сум" },
-      { id:5, q:"Какой ИНН у компании Agrobank ATB", keywords:["инн","agrobank","агробанк","inn"], source:"profile.json",
+      { id:5, q_ru:"Какой ИНН у компании Agrobank ATB", q_uz:"Agrobank ATB kompaniyasining INN raqami qanday", q_en:"What is the INN of Agrobank ATB", keywords:["инн","agrobank","агробанк","inn"], source:"profile.json",
         orig: "207 243 390", uz: "207 243 390", en: "207 243 390", ru: "207 243 390" },
-      { id:6, q:"Какой полный адрес местонахождения компании Agrobank ATB по зарегистрированному адресу", keywords:["адрес","местонахождение","зарегистриров","agrobank","агробанк","manzili","address"], source:"profile.json",
+      { id:6, q_ru:"Какой полный адрес местонахождения компании Agrobank ATB по зарегистрированному адресу", q_uz:"Agrobank ATB ro'yxatdan o'tgan manzilga ko'ra to'liq manzili qayerda", q_en:"What is the full registered address of Agrobank ATB", keywords:["адрес","местонахождение","зарегистриров","agrobank","агробанк","manzili","address"], source:"profile.json",
         orig: "Toshkent shahar, Shayxontohur tumani, Botir Zokirov ko'chasi 2a-uy.", uz: "Toshkent shahar, Shayxontohur tumani, Botir Zokirov ko'chasi 2a-uy.", en: "Tashkent city, Shaykhantakhur district, Botir Zokirov st., 2a", ru: "г. Ташкент, Шайхантахурский район, ул. Батыра Закирова, 2а." },
-      { id:7, q:"Какой адрес электронной почты указан для Anor Bank AЖ в NSBU_quarter_25834", keywords:["электронн","почт","email","anor","bank","25834","pochta"], source:"NSBU_annual_15284.xlsx",
+      { id:7, q_ru:"Какой адрес электронной почты указан для Anor Bank AЖ в NSBU_quarter_25834", q_uz:"NSBU_quarter_25834 hisobotida Anor Bank AЖ uchun qanday elektron pochta manzili ko'rsatilgan", q_en:"What email address is indicated for Anor Bank AЖ in NSBU_quarter_25834", keywords:["электронн","почт","email","anor","bank","25834","pochta"], source:"NSBU_annual_15284.xlsx",
         orig: "info@anorbank.uz", uz: "info@anorbank.uz", en: "info@anorbank.uz", ru: "info@anorbank.uz" },
-      { id:8, q:"Какова сумма Итого активов Anor Bank AЖ на начало отчетного периода в NSBU_quarter_25834", keywords:["итого","актив","начал","anor","bank","25834","aktivlar","assets"], source:"NSBU_quarter_25834.xlsx",
+      { id:8, q_ru:"Какова сумма Итого активов Anor Bank AЖ на начало отчетного периода в NSBU_quarter_25834", q_uz:"NSBU_quarter_25834 hisobot davri boshida Anor Bank AЖ jami aktivlari summasi qancha", q_en:"What is the amount of Total Assets of Anor Bank AЖ at the beginning of the reporting period in NSBU_quarter_25834", keywords:["итого","актив","начал","anor","bank","25834","aktivlar","assets"], source:"NSBU_quarter_25834.xlsx",
         orig: "12 568 516 304 тыс. сум", uz: "12 568 516 304 ming so'm", en: "12,568,516,304 thousand UZS", ru: "12 568 516 304 тыс. сум" },
-      { id:9, q:"Какова чистая прибыль Anor Bank AЖ за отчетный период NSBU_quarter_25834", keywords:["чист","прибыль","anor","bank","25834","foyda","profit"], source:"NSBU_quarter_25834.xlsx",
+      { id:9, q_ru:"Какова чистая прибыль Anor Bank AЖ за отчетный период NSBU_quarter_25834", q_uz:"NSBU_quarter_25834 hisobot davrida Anor Bank AЖ sof foydasi qancha", q_en:"What is the net profit of Anor Bank AЖ for the reporting period NSBU_quarter_25834", keywords:["чист","прибыль","anor","bank","25834","foyda","profit"], source:"NSBU_quarter_25834.xlsx",
         orig: "235 917 922 тыс. сум", uz: "235 917 922 ming so'm", en: "235,917,922 thousand UZS", ru: "235 917 922 тыс. сум" },
-      { id:10, q:"Какой МФО обслуживающего банка у Anor Bank AЖ", keywords:["мфо","anor","bank","код","банк","mfo"], source:"NSBU_annual_15284.xlsx",
+      { id:10, q_ru:"Какой МФО обслуживающего банка у Anor Bank AЖ", q_uz:"Anor Bank AЖ xizmat ko'rsatuvchi bankining MFO kodi qanday", q_en:"What is the MFO of the serving bank for Anor Bank AЖ", keywords:["мфо","anor","bank","код","банк","mfo"], source:"NSBU_annual_15284.xlsx",
         orig: "01183", uz: "01183", en: "01183", ru: "01183" },
-      { id:11, q:"Какое наименование обслуживающего банка у Angren Issiqlik Elektr Stansiyasi AJ по данным NSBU_annual_2134", keywords:["обслуживающ","банк","наименован","angren","ангрен","xizmat","banki"], source:"NSBU_annual_10773.xlsx",
+      { id:11, q_ru:"Какое наименование обслуживающего банка у Angren Issiqlik Elektr Stansiyasi AJ по данным NSBU_annual_2134", q_uz:"NSBU_annual_2134 ma'lumotlariga ko'ra Angren Issiqlik Elektr Stansiyasi AJ xizmat ko'rsatuvchi bankining nomi nima", q_en:"What is the name of the serving bank for Angren Issiqlik Elektr Stansiyasi AJ according to NSBU_annual_2134", keywords:["обслуживающ","банк","наименован","angren","ангрен","xizmat","banki"], source:"NSBU_annual_10773.xlsx",
         orig: "Uzsanoatqurilishbank Angren filliali", uz: "O'zsanoatqurilishbank Angren filiali", en: "Uzsanoatqurilishbank Angren branch", ru: "Узпромстройбанк Ангренский филиал" },
-      { id:12, q:"У какой компании больше итого активов: Anor Bank AЖ или Angren Issiqlik Elektr Stansiyasi AJ", keywords:["больше","актив","сравн","anor","angren","ko'proq","more"], source:"NSBU_quarter_25834.xlsx",
+      { id:12, q_ru:"У какой компании больше итого активов: Anor Bank AЖ или Angren Issiqlik Elektr Stansiyasi AJ", q_uz:"Qaysi kompaniyada jami aktivlar ko'proq: Anor Bank AЖ yoki Angren Issiqlik Elektr Stansiyasi AJ", q_en:"Which company has more total assets: Anor Bank AЖ or Angren Issiqlik Elektr Stansiyasi AJ", keywords:["больше","актив","сравн","anor","angren","ko'proq","more"], source:"NSBU_quarter_25834.xlsx",
         orig: "Anor Bank (12.57 млрд vs 2.39 млрд сум)", uz: "Anor Bank (12.57 mlrd vs 2.39 mlrd so'm)", en: "Anor Bank (12.57 bln vs 2.39 bln UZS)", ru: "Anor Bank (12.57 млрд vs 2.39 млрд сум)" },
-      { id:13, q:"Какова задолженность дочерним и зависимым хозяйственным обществам Angren Issiqlik Elektr Stansiyasi AJ по данным NSBU_annual_2134", keywords:["дочерн","зависим","задолженн","angren","ангрен","2134","qarz","debt"], source:"NSBU_annual_2134.xlsx",
+      { id:13, q_ru:"Какова задолженность дочерним и зависимым хозяйственным обществам Angren Issiqlik Elektr Stansiyasi AJ по данным NSBU_annual_2134", q_uz:"NSBU_annual_2134 ma'lumotlariga ko'ra Angren Issiqlik Elektr Stansiyasi AJ sho'ba va qaram xo'jalik jamiyatlari oldidagi qarzdorligi qancha", q_en:"What is the debt to subsidiary and dependent economic societies of Angren Issiqlik Elektr Stansiyasi AJ according to NSBU_annual_2134", keywords:["дочерн","зависим","задолженн","angren","ангрен","2134","qarz","debt"], source:"NSBU_annual_2134.xlsx",
         orig: "53 240 957 тыс. сум", uz: "53 240 957 ming so'm", en: "53,240,957 thousand UZS", ru: "53 240 957 тыс. сум" },
-      { id:14, q:"Какой официальный веб-сайт Angren Issiqlik Elektr Stansiyasi AJ", keywords:["веб","сайт","official","website","angren","ангрен","sayti"], source:"NSBU_annual_10773.xlsx",
+      { id:14, q_ru:"Какой официальный веб-сайт Angren Issiqlik Elektr Stansiyasi AJ", q_uz:"Angren Issiqlik Elektr Stansiyasi AJ rasmiy veb-sayti qanday", q_en:"What is the official website of Angren Issiqlik Elektr Stansiyasi AJ", keywords:["веб","сайт","official","website","angren","ангрен","sayti"], source:"NSBU_annual_10773.xlsx",
         orig: "https://angrentes.uz/", uz: "https://angrentes.uz/", en: "https://angrentes.uz/", ru: "https://angrentes.uz/" },
-      { id:15, q:"Какова сумма Итого процентных доходов Anor Bank AЖ за отчетный период NSBU_quarter_25834", keywords:["процентн","доход","итого","anor","bank","25834","foyz","interest"], source:"NSBU_quarter_25834.xlsx",
+      { id:15, q_ru:"Какова сумма Итого процентных доходов Anor Bank AЖ за отчетный период NSBU_quarter_25834", q_uz:"NSBU_quarter_25834 hisobot davrida Anor Bank AЖ jami foiz daromadlari summasi qancha", q_en:"What is the amount of Total interest income of Anor Bank AЖ for the reporting period NSBU_quarter_25834", keywords:["процентн","доход","итого","anor","bank","25834","foyz","interest"], source:"NSBU_quarter_25834.xlsx",
         orig: "2 257 849 702 тыс. сум", uz: "2 257 849 702 ming so'm", en: "2,257,849,702 thousand UZS", ru: "2 257 849 702 тыс. сум" },
     ];
 
     async function searchDocuments(query, lang) {
       await new Promise(r => setTimeout(r, 400 + Math.random() * 300));
       const q = query.toLowerCase();
+      
+      // Auto-detect language of user query independent of UI
+      let detectedLang = lang; 
+      if (/[А-Яа-яЁё]/.test(q)) {
+        detectedLang = 'ru';
+      } else if (/\b(qayerda|qancha|qanday|qaysi|ko'proq|manzili|foydasi|aktivlari|tushumi|uchun|ko'ra|nomi)\b/.test(q)) {
+        detectedLang = 'uz';
+      } else if (/\b(what|is|the|of|how|much|company|address|net|profit|revenue|assets|who|has|more)\b/.test(q)) {
+        detectedLang = 'en';
+      }
       
       // Score each knowledge item by keyword match
       let bestMatch = null;
@@ -337,8 +347,9 @@
         for (const kw of item.keywords) {
           if (q.includes(kw.toLowerCase())) score += 2;
         }
-        // Also check question text similarity
-        const qWords = item.q.toLowerCase().split(/\s+/);
+        // Check question text similarity across all languages
+        const combinedQ = `${item.q_ru} ${item.q_uz} ${item.q_en}`.toLowerCase();
+        const qWords = combinedQ.split(/\s+/);
         for (const w of q.split(/\s+/)) {
           if (w.length > 3 && qWords.some(qw => qw.includes(w) || w.includes(qw))) score += 1;
         }
@@ -346,17 +357,21 @@
       }
       
       if (bestMatch && bestScore >= 3) {
-        let origLabel = lang === 'uz' ? 'Asl nusxa' : lang === 'en' ? 'Original' : 'Оригинал';
-        let translatedLabel = lang === 'uz' ? "O'zbekcha" : lang === 'en' ? 'English' : 'Русский';
+        let origLabel = detectedLang === 'uz' ? 'Asl nusxa' : detectedLang === 'en' ? 'Original' : 'Оригинал';
+        let translatedLabel = detectedLang === 'uz' ? "Tarjima (O'zbekcha)" : detectedLang === 'en' ? 'Translation (English)' : 'Перевод (Русский)';
         
         let formattedAnswer = `**${origLabel}:** ${bestMatch.orig}`;
-        if (bestMatch.orig !== bestMatch[lang]) {
-          formattedAnswer += `\n\n**${translatedLabel}:** ${bestMatch[lang]}`;
+        if (bestMatch.orig !== bestMatch[detectedLang]) {
+          formattedAnswer += `\n\n**${translatedLabel}:** ${bestMatch[detectedLang]}`;
         }
         
+        let sourceLabel = detectedLang === 'uz' ? 'Manba' : detectedLang === 'en' ? 'Source Document' : 'Источник';
+        let qLabel = detectedLang === 'uz' ? 'Savol' : detectedLang === 'en' ? 'Question' : 'Вопрос';
+        let localizedQ = detectedLang === 'uz' ? bestMatch.q_uz : detectedLang === 'en' ? bestMatch.q_en : bestMatch.q_ru;
+
         return { 
           query, 
-          answer: `${formattedAnswer}\n\n📄 ${lang === 'uz' ? 'Manba' : lang === 'en' ? 'Source' : 'Источник'}: \`${bestMatch.source}\`\n\n_${lang === 'uz' ? 'Savol' : lang === 'en' ? 'Question' : 'Вопрос'} #${bestMatch.id}: ${bestMatch.q}_`,
+          answer: `${formattedAnswer}\n\n📄 **${sourceLabel}:** \`${bestMatch.source}\`\n\n_${qLabel} #${bestMatch.id}: ${localizedQ}_`,
           sources: [
             { id: bestMatch.id, filename: bestMatch.source, sheet: 'Financial Data', relevance: Math.min(0.99, 0.85 + bestScore * 0.02) }
           ], 
@@ -367,14 +382,14 @@
       
       // No match — suggest available topics
       const suggestions = {
-        uz: "Kechirasiz, bu so'rov uchun aniq javob topilmadi. Quyidagi mavzularda so'rov yuborishingiz mumkin:\n\n• Kompaniya manzili (Angren, Agrobank, Anor Bank)\n• Moliyaviy ko'rsatkichlar (ustav kapitali, sof foyda, daromad)\n• Bank ma'lumotlari (MFO, xizmat ko'rsatuvchi bank)\n• Kontakt ma'lumotlari (email, veb-sayt)",
-        ru: "К сожалению, точный ответ на этот запрос не найден. Вы можете задать вопросы по следующим темам:\n\n• Адрес компании (Angren, Agrobank, Anor Bank)\n• Финансовые показатели (уставный капитал, чистая прибыль, выручка)\n• Банковские данные (МФО, обслуживающий банк)\n• Контактные данные (email, веб-сайт)",
-        en: "Sorry, no exact match found for this query. You can ask about:\n\n• Company addresses (Angren, Agrobank, Anor Bank)\n• Financial indicators (authorized capital, net profit, revenue)\n• Bank details (MFO, serving bank)\n• Contact info (email, website)"
+        uz: "Kechirasiz, ushbu so'rov bo'yicha aniq ma'lumot topilmadi. Quyidagilarni so'rashingiz mumkin:\n\n• Kompaniya manzili (Angren, Agrobank, Anor Bank)\n• Moliyaviy ko'rsatkichlar (ustav kapitali, sof foyda, daromad)\n• Bank ma'lumotlari (MFO, xizmat ko'rsatuvchi bank)\n• Kontaktlar (email, veb-sayt)",
+        ru: "Извините, точной информации по этому запросу не найдено. Вы можете спросить о:\n\n• Адресах компаний (Angren, Agrobank, Anor Bank)\n• Финансовых показателях (уставный капитал, чистая прибыль, выручка)\n• Банковских данных (МФО, обслуживающий банк)\n• Контактах (email, сайт)",
+        en: "Sorry, no exact information found for this query. You can ask about:\n\n• Company addresses (Angren, Agrobank, Anor Bank)\n• Financial numbers (authorized capital, net profit, revenue)\n• Bank details (MFO, serving bank)\n• Contacts (email, website)"
       };
       
       return { 
         query, 
-        answer: suggestions[lang] || suggestions.en,
+        answer: suggestions[detectedLang] || suggestions.en,
         sources: [], 
         timestamp: new Date().toISOString(), 
         processingTimeMs: Math.floor(80 + Math.random() * 60)
